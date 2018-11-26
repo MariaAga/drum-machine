@@ -1,0 +1,78 @@
+class Drum extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentSound: null,
+      keys: [
+        { key: 'Q', keycode: 81, src: 'sounds/clap.wav' },
+        { key: 'W', keycode: 87, src: 'sounds/hihat.wav' },
+        { key: 'E', keycode: 69, src: 'sounds/kick.wav' },
+        { key: 'A', keycode: 65, src: 'sounds/openhat.wav' },
+        { key: 'S', keycode: 83, src: 'sounds/boom.wav' },
+        { key: 'D', keycode: 68, src: 'sounds/ride.wav' },
+        { key: 'Z', keycode: 90, src: 'sounds/snare.wav' },
+        { key: 'X', keycode: 88, src: 'sounds/tom.wav' },
+        { key: 'C', keycode: 67, src: 'sounds/tink.wav' }
+      ]
+    };
+    this.playSoundFromKey = this.playSoundFromKey.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener('keydown', this.playSoundFromKey);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.playSoundFromKey);
+  }
+  playSoundFromKey(e) {
+    const foundKey = this.state.keys.find(key => key.keycode === e.keyCode);
+    if (foundKey) {
+      this.playSound(foundKey.key);
+    }
+  }
+  playSound = key => {
+    const audio = document.querySelector(`audio#${key}`);
+    audio.volume = 0.1;
+    audio.currentTime = 0;
+    audio.play();
+    const len = 'https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/sounds/'
+      .length;
+    this.setState({ currentSound: audio.src.slice(len,-4) });
+  };
+  playFromEvent = event => {
+    const key = event.target.id;
+    this.playSound(key);
+  };
+  render() {
+    return (
+      <div id="drum-machine">
+        <div id="display">
+          {this.state.currentSound}
+          <div id="drum-pads">
+            {this.state.keys.map(key => {
+              return (
+                <button
+                  onClick={this.playFromEvent}
+                  class="drum-pad"
+                  id={`${key.key}`}
+                >
+                  {' '}
+                  {key.key}
+                  <audio
+                    src={
+                      'https://raw.githubusercontent.com/wesbos/JavaScript30/master/01%20-%20JavaScript%20Drum%20Kit/' +
+                      key.src
+                    }
+                    class="clip"
+                    id={`${key.key}`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<Drum />, document.getElementById('app'));

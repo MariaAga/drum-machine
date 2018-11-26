@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif');
+
+body{
+  font-family: 'Bree Serif', serif;    
+  --light-purple:#f2e2ff;
+  --dark-purple:#654d77;
+  --light-blue:#d1dff9;
+    background-color: var(--light-purple);
+}
+
+#app {
+  text-align: center;
+  
+}
+
+#drum-machine{
+  display:block;
+}
+
+#display,
+#drum-pads{
+  display:block;
+}
+
+.drum-pad{
+  width:50px;
+  height:50px;
+  margin: 10px;
+  font-size:20px;
+  font-weight: bold;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1.5px solid #c4c4c4;
+  font-size: 1.1em;
+}
+button:hover{
+  background-color: var(--light-blue);
+  box-shadow: 1px 0px 15px 1px #C7BDEF;
+  
+}
